@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwasthyaSahayak - Your Health Companion</title>
+    <style>
+        /* Healthcare Chatbot Design System - Government & Medical Aesthetic */
+        :root {
+            /* Core Healthcare Palette */
+            --background: 210 20% 98%;
+            --foreground: 210 12% 16%;
+            --card: 0 0% 100%;
+            --card-foreground: 210 12% 16%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 210 12% 16%;
+            
+            /* Medical Blue - Trust & Authority */
+            --primary: 210 80% 48%;
+            --primary-foreground: 0 0% 100%;
+            --primary-soft: 210 80% 95%;
+            
+            /* Healthcare Green - Health & Wellness */
+            --healthcare: 145 65% 45%;
+            --healthcare-foreground: 0 0% 100%;
+            --healthcare-soft: 145 65% 95%;
+            
+            /* Government Secondary */
+            --secondary: 210 15% 93%;
+            --secondary-foreground: 210 12% 16%;
+            
+            --muted: 210 15% 96%;
+            --muted-foreground: 210 8% 45%;
+            
+            --accent: 210 15% 93%;
+            --accent-foreground: 210 12% 16%;
+            
+            /* Alert Colors */
+            --warning: 35 95% 58%;
+            --warning-foreground: 0 0% 100%;
+            --warning-soft: 35 95% 95%;
+            
+            --destructive: 0 75% 55%;
+            --destructive-foreground: 0 0% 100%;
+            --destructive-soft: 0 75% 95%;
+            
+            --success: 145 65% 45%;
+            --success-foreground: 0 0% 100%;
+            --success-soft: 145 65% 95%;
+            
+            /* Interface */
+            --border: 210 20% 88%;
+            --input: 210 20% 94%;
+            --ring: 210 80% 48%;
+            
+            /* Chat Specific */
+            --chat-user: 210 80% 48%;
+            --chat-user-foreground: 0 0% 100%;
+            --chat-bot: 210 15% 96%;
+            --chat-bot-foreground: 210 12% 16%;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, hsl(210 80% 48%), hsl(210 75% 58%));
+            --gradient-healthcare: linear-gradient(135deg, hsl(145 65% 45%), hsl(145 60% 55%));
+            --gradient-hero: linear-gradient(135deg, hsl(210 80% 48%), hsl(145 65% 45%));
+            
+            /* Shadows */
+            --shadow-soft: 0 2px 8px hsl(210 15% 15% / 0.08);
+            --shadow-medium: 0 4px 16px hsl(210 15% 15% / 0.12);
+            --shadow-strong: 0 8px 32px hsl(210 15% 15% / 0.16);
+            
+            /* Animations */
+            --animation-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --animation-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            
+            --radius: 1rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-weight: 500;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s var(--animation-smooth), color 0.3s var(--animation-smooth);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: hsl(var(--card));
+            border-bottom: 1px solid hsl(var(--border));
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: hsl(var(--background) / 0.8);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: hsl(var(--primary));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: hsl(var(--foreground));
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: hsl(var(--accent));
+        }
+
+        .nav-link.active {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .btn-primary:hover {
+            background: hsl(var(--primary) / 0.9);
+        }
+
+        .btn-secondary {
+            background: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: hsl(var(--foreground));
+        }
+
+        .btn-ghost:hover {
+            background: hsl(var(--accent));
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .section {
+            display: none;
+            padding: 2rem 1rem;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 1rem;
+            margin: 2rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-elegant);
+        }
+
+        .feature-icon {
+            width: 3rem;
+            height: 3rem;
+            background: hsl(var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: hsl(var(--card));
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-elegant);
+        }
+
+        .chat-header {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: hsl(var(--background));
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            background: hsl(var(--muted));
+        }
+
+        .message.user .message-bubble {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .quick-replies {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-reply {
+            background: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .quick-reply:hover {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            gap: 0.5rem;
+            border-top: 1px solid hsl(var(--border));
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .dashboard-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: hsl(var(--muted));
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: hsl(var(--primary));
+            transition: width 0.5s ease;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: hsl(var(--primary));
+            box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: hsl(var(--popover));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-elegant);
+            z-index: 1000;
+            min-width: 200px;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .dropdown-item:hover {
+            background: hsl(var(--accent));
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: hsl(var(--foreground));
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Health Info Styles */
+        .health-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .category-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .category-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-elegant);
+        }
+
+        /* Community Styles */
+        .community-post {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: hsl(var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: hsl(var(--muted-foreground));
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .action-btn:hover {
+            color: hsl(var(--primary));
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: hsl(210 40% 96%);
+            border-color: hsl(var(--primary));
+            color: hsl(210 40% 20%);
+        }
+
+        .alert-warning {
+            background: hsl(48 96% 96%);
+            border-color: hsl(48 96% 50%);
+            color: hsl(48 96% 20%);
+        }
+
+        .alert-success {
+            background: hsl(142 76% 96%);
+            border-color: hsl(142 76% 50%);
+            color: hsl(142 76% 20%);
+        }
+
+        .dark .alert-info {
+            background: hsl(210 40% 10%);
+            color: hsl(210 40% 80%);
+        }
+
+        .dark .alert-warning {
+            background: hsl(48 96% 10%);
+            color: hsl(48 96% 80%);
+        }
+
+        .dark .alert-success {
+            background: hsl(142 76% 10%);
+            color: hsl(142 76% 80%);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid hsl(var(--muted));
+            border-radius: 50%;
+            border-top-color: hsl(var(--primary));
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Voice Animation */
+        .voice-animation {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+        }
+
+        .voice-bar {
+            width: 3px;
+            height: 20px;
+            background: hsl(var(--primary));
+            border-radius: 2px;
+            animation: voice 0.5s ease-in-out infinite alternate;
+        }
+
+        .voice-bar:nth-child(2) { animation-delay: 0.1s; }
+        .voice-bar:nth-child(3) { animation-delay: 0.2s; }
+        .voice-bar:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes voice {
+            to { height: 5px; }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: hsl(var(--popover));
+            color: hsl(var(--popover-foreground));
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            white-space: nowrap;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-elegant);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span>🏥</span>
+                <span>SwasthyaSahayak</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-section="health-info">Health Info</a></li>
+                <li><a href="#" class="nav-link" data-section="community">Community</a></li>
+                <li><a href="#" class="nav-link" data-section="chat-assistant">Chat Assistant</a></li>
+                <li><a href="#" class="nav-link" data-section="sign-in">Sign In</a></li>
+            </ul>
+            
+            <div class="nav-controls">
+                <!-- Language Selector -->
+                <div class="dropdown" id="languageDropdown">
+                    <button class="btn btn-ghost">
+                        <span>🌐</span>
+                        <span id="currentLanguage">English</span>
+                    </button>
+                    <div class="dropdown-content">
+                        <div class="dropdown-item" data-lang="en">
+                            <strong>English</strong><br>
+                            <small>English</small>
+                        </div>
+                        <div class="dropdown-item" data-lang="hi">
+                            <strong>हिंदी</strong><br>
+                            <small>Hindi</small>
+                        </div>
+                        <div class="dropdown-item" data-lang="bn">
+                            <strong>বাংলা</strong><br>
+                            <small>Bengali</small>
+                        </div>
+                        <div class="dropdown-item" data-lang="te">
+                            <strong>తెలుగు</strong><br>
+                            <small>Telugu</small>
+                        </div>
+                        <div class="dropdown-item" data-lang="mr">
+                            <strong>मराठी</strong><br>
+                            <small>Marathi</small>
+                        </div>
+                        <div class="dropdown-item" data-lang="ta">
+                            <strong>தமிழ்</strong><br>
+                            <small>Tamil</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Theme Toggle -->
+                <button class="btn btn-ghost" id="themeToggle" data-tooltip="Toggle theme">
+                    <span id="themeIcon">☀️</span>
+                </button>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero fade-in">
+                <h1>स्वास्थ्य सहायक</h1>
+                <p>Your AI-powered healthcare companion for rural and semi-urban communities</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">10M+</div>
+                        <div>Users Served</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">500K+</div>
+                        <div>Health Queries Resolved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div>Languages Supported</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div>Always Available</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="showSection('chat-assistant')">
+                    Start Chat Now
+                </button>
+            </div>
+            
+            <div class="container">
+                <h2 style="text-align: center; margin: 3rem 0 2rem;">Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI Chatbot</h3>
+                        <p>Get instant health advice and symptom checking from our AI assistant trained on medical knowledge.</p>
+                        <button class="btn btn-primary" onclick="showSection('chat-assistant')">Try Now</button>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">💉</div>
+                        <h3>Vaccination Scheduler</h3>
+                        <p>Track vaccination schedules for your family and get timely reminders via WhatsApp and SMS.</p>
+                        <button class="btn btn-primary" onclick="openVaccinationScheduler()">Schedule Now</button>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Health Dashboard</h3>
+                        <p>Monitor your health metrics, track progress, and view personalized health insights.</p>
+                        <button class="btn btn-primary" onclick="openHealthDashboard()">View Dashboard</button>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🚨</div>
+                        <h3>Outbreak Alerts</h3>
+                        <p>Stay informed about disease outbreaks in your area with real-time notifications.</p>
+                        <button class="btn btn-primary" onclick="showOutbreakAlerts()">Check Alerts</button>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>Health Information</h3>
+                        <p>Access reliable health information, preventive care tips, and medical guidance.</p>
+                        <button class="btn btn-primary" onclick="showSection('health-info')">Learn More</button>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3>Community Support</h3>
+                        <p>Connect with others, share experiences, and get support from healthcare professionals.</p>
+                        <button class="btn btn-primary" onclick="showSection('community')">Join Community</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Health Info Section -->
+        <section id="health-info" class="section">
+            <div class="container fade-in">
+                <h1>Health Information Center</h1>
+                <p>Access reliable and accurate health information to make informed decisions about your health.</p>
+                
+                <div class="health-categories">
+                    <div class="category-card" onclick="showHealthCategory('preventive-care')">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>Preventive Care</h3>
+                        <p>Learn about vaccination schedules, health screenings, and preventive measures.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="showHealthCategory('common-diseases')">
+                        <div class="feature-icon">🦠</div>
+                        <h3>Common Diseases</h3>
+                        <p>Understand symptoms, treatments, and prevention of common health conditions.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="showHealthCategory('nutrition')">
+                        <div class="feature-icon">🥗</div>
+                        <h3>Nutrition & Diet</h3>
+                        <p>Get guidance on healthy eating habits and nutritional requirements.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="showHealthCategory('maternal-health')">
+                        <div class="feature-icon">🤱</div>
+                        <h3>Maternal Health</h3>
+                        <p>Essential information for expecting mothers and child health.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="showHealthCategory('mental-health')">
+                        <div class="feature-icon">🧠</div>
+                        <h3>Mental Health</h3>
+                        <p>Learn about mental wellness, stress management, and emotional health.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="showHealthCategory('emergency-care')">
+                        <div class="feature-icon">🚑</div>
+                        <h3>Emergency Care</h3>
+                        <p>Know what to do in medical emergencies and when to seek immediate help.</p>
+                    </div>
+                </div>
+                
+                <div id="health-content" style="margin-top: 2rem;">
+                    <div class="alert alert-info">
+                        <strong>Welcome to Health Information Center!</strong> Select a category above to explore detailed health information and guidelines.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="section">
+            <div class="container fade-in">
+                <h1>Community Support</h1>
+                <p>Connect with others, share experiences, and get support from healthcare professionals and community members.</p>
+                
+                <div style="margin: 2rem 0;">
+                    <button class="btn btn-primary" onclick="createNewPost()">Create New Post</button>
+                    <button class="btn btn-secondary" onclick="filterPosts('all')">All Posts</button>
+                    <button class="btn btn-secondary" onclick="filterPosts('questions')">Questions</button>
+                    <button class="btn btn-secondary" onclick="filterPosts('success-stories')">Success Stories</button>
+                </div>
+                
+                <div id="community-posts">
+                    <div class="community-post" data-category="questions">
+                        <div class="post-header">
+                            <div class="post-avatar">RK</div>
+                            <div>
+                                <strong>Raj Kumar</strong>
+                                <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">2 hours ago</div>
+                            </div>
+                        </div>
+                        <h3>Question about vaccination schedule for my 6-month-old</h3>
+                        <p>Hi everyone, I have a 6-month-old baby and I'm confused about the vaccination schedule. Can someone help me understand which vaccines are due at this age?</p>
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="likePost(this)">
+                                <span>👍</span> <span>12</span>
+                            </button>
+                            <button class="action-btn" onclick="toggleComments(this)">
+                                <span>💬</span> <span>5 Comments</span>
+                            </button>
+                            <button class="action-btn" onclick="sharePost(this)">
+                                <span>📤</span> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="community-post" data-category="success-stories">
+                        <div class="post-header">
+                            <div class="post-avatar">SM</div>
+                            <div>
+                                <strong>Sunita Mehra</strong>
+                                <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">1 day ago</div>
+                            </div>
+                        </div>
+                        <h3>Successfully managed diabetes with lifestyle changes</h3>
+                        <p>I want to share my journey of managing Type 2 diabetes through diet and exercise. Thanks to the guidance I received here, my HbA1c levels have improved significantly!</p>
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="likePost(this)">
+                                <span>👍</span> <span>28</span>
+                            </button>
+                            <button class="action-btn" onclick="toggleComments(this)">
+                                <span>💬</span> <span>12 Comments</span>
+                            </button>
+                            <button class="action-btn" onclick="sharePost(this)">
+                                <span>📤</span> Share
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="community-post" data-category="questions">
+                        <div class="post-header">
+                            <div class="post-avatar">AP</div>
+                            <div>
+                                <strong>Dr. Amit Patel</strong>
+                                <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">3 days ago • Healthcare Professional</div>
+                            </div>
+                        </div>
+                        <h3>Important: Monsoon Health Precautions</h3>
+                        <p>With the monsoon season approaching, here are some important health precautions to prevent water-borne diseases and infections. Please take these seriously!</p>
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="likePost(this)">
+                                <span>👍</span> <span>45</span>
+                            </button>
+                            <button class="action-btn" onclick="toggleComments(this)">
+                                <span>💬</span> <span>8 Comments</span>
+                            </button>
+                            <button class="action-btn" onclick="sharePost(this)">
+                                <span>📤</span> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Assistant Section -->
+        <section id="chat-assistant" class="section">
+            <div class="container fade-in">
+                <h1>AI Health Assistant</h1>
+                <p>Chat with our AI-powered health assistant for instant health advice and information.</p>
+                
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="post-avatar" style="background: white; color: hsl(var(--primary));">AI</div>
+                            <div>
+                                <strong>Health Assistant</strong>
+                                <div style="font-size: 0.875rem; opacity: 0.9;">Online • Ready to help</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="btn btn-ghost" onclick="toggleVoiceChat()" data-tooltip="Voice chat">
+                                <span id="voiceIcon">🎙️</span>
+                            </button>
+                            <button class="btn btn-ghost" onclick="clearChat()" data-tooltip="Clear chat">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message">
+                            <div class="message-bubble">
+                                <strong>Hello! 🙏</strong><br>
+                                I'm your AI health assistant. I can help you with:
+                                <ul style="margin: 0.5rem 0; padding-left: 1rem;">
+                                    <li>Symptom checking</li>
+                                    <li>Vaccination schedules</li>
+                                    <li>Health information</li>
+                                    <li>Preventive care tips</li>
+                                    <li>Emergency guidance</li>
+                                </ul>
+                                How can I assist you today?
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-replies">
+                        <button class="quick-reply" onclick="sendQuickReply('Check symptoms')">😷 Check Symptoms</button>
+                        <button class="quick-reply" onclick="sendQuickReply('Vaccination schedule')">💉 Vaccination</button>
+                        <button class="quick-reply" onclick="sendQuickReply('Health tips')">💡 Health Tips</button>
+                        <button class="quick-reply" onclick="sendQuickReply('Emergency help')">🚨 Emergency</button>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Type your health question..." onkeypress="handleChatInput(event)">
+                        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning" style="margin-top: 1rem;">
+                    <strong>Disclaimer:</strong> This AI assistant provides general health information only. Always consult with qualified healthcare professionals for medical advice, diagnosis, or treatment.
+                </div>
+            </div>
+        </section>
+
+        <!-- Sign In Section -->
+        <section id="sign-in" class="section">
+            <div class="container fade-in">
+                <div style="max-width: 400px; margin: 0 auto; background: hsl(var(--card)); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow-elegant);">
+                    <h1 style="text-align: center; margin-bottom: 2rem;">Sign In</h1>
+                    
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                        <button class="btn btn-primary" onclick="switchSignInMode('user')" id="userModeBtn" style="flex: 1;">User</button>
+                        <button class="btn btn-secondary" onclick="switchSignInMode('admin')" id="adminModeBtn" style="flex: 1;">Admin</button>
+                    </div>
+                    
+                    <form id="signInForm" onsubmit="handleSignIn(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="emailPhone">Email or Phone Number</label>
+                            <input type="text" id="emailPhone" class="form-input" placeholder="Enter email or phone number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" id="password" class="form-input" placeholder="Enter password" required>
+                        </div>
+                        
+                        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe">Remember me</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+                            Sign In
+                        </button>
+                        
+                        <div style="text-align: center;">
+                            <a href="#" onclick="forgotPassword()" style="color: hsl(var(--primary)); text-decoration: none;">Forgot Password?</a>
+                        </div>
+                    </form>
+                    
+                    <div style="border-top: 1px solid hsl(var(--border)); margin: 2rem 0; padding-top: 2rem;">
+                        <button class="btn btn-secondary" style="width: 100%; margin-bottom: 1rem;" onclick="signInWithGoogle()">
+                            🔍 Sign in with Google
+                        </button>
+                        
+                        <button class="btn btn-secondary" style="width: 100%;" onclick="signInWithOTP()">
+                            📱 Sign in with OTP
+                        </button>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <span>Don't have an account? </span>
+                        <a href="#" onclick="showSignUp()" style="color: hsl(var(--primary)); text-decoration: none;">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Global State
+        let currentSection = 'home';
+        let currentTheme = localStorage.getItem('healthcare-theme') || 'light';
+        let currentLanguage = localStorage.getItem('healthcare-language') || 'en';
+        let signInMode = 'user';
+        let isVoiceMode = false;
+        let chatHistory = [];
+
+        // Language translations
+        const translations = {
+            en: {
+                greeting: "Hello! How can I help you today?",
+                symptoms: "I can help you check your symptoms. Please describe what you're experiencing.",
+                vaccination: "I can provide vaccination schedule information. What's the age of the person?",
+                tips: "Here are some general health tips: Stay hydrated, eat balanced meals, exercise regularly, and get adequate sleep.",
+                emergency: "If this is a medical emergency, please call emergency services immediately (108 in India). For urgent health concerns, visit the nearest healthcare facility."
+            },
+            hi: {
+                greeting: "नमस्ते! आज मैं आपकी कैसे मदद कर सकता हूं?",
+                symptoms: "मैं आपके लक्षणों की जांच में मदद कर सकता हूं। कृपया बताएं कि आप क्या महसूस कर रहे हैं।",
+                vaccination: "मैं टीकाकरण कार्यक्रम की जानकारी प्रदान कर सकता हूं। व्यक्ति की उम्र क्या है?",
+                tips: "यहाँ कुछ सामान्य स्वास्थ्य सुझाव हैं: हाइड्रेटेड रहें, संतुलित भोजन लें, नियमित व्यायाम करें, और पर्याप्त नींद लें।",
+                emergency: "यदि यह एक चिकित्सा आपातकाल है, तो कृपया तुरंत आपातकालीन सेवाओं को कॉल करें (भारत में 108)।"
+            }
+        };
+
+        // Initialize the application
+        function init() {
+            // Set theme
+            document.documentElement.className = currentTheme;
+            updateThemeIcon();
+            
+            // Set language
+            updateLanguageDisplay();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Add initial animations
+            animateStats();
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const section = link.getAttribute('data-section');
+                    showSection(section);
+                });
+            });
+
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+            // Language dropdown
+            document.getElementById('languageDropdown').addEventListener('click', toggleLanguageDropdown);
+            document.querySelectorAll('[data-lang]').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const lang = e.currentTarget.getAttribute('data-lang');
+                    setLanguage(lang);
+                });
+            });
+
+            // Chat input
+            document.getElementById('chatInput').addEventListener('keypress', handleChatInput);
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        }
+
+        // Section Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                targetSection.classList.add('fade-in');
+            }
+
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+
+            currentSection = sectionId;
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Theme Management
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.className = currentTheme;
+            localStorage.setItem('healthcare-theme', currentTheme);
+            updateThemeIcon();
+        }
+
+        function updateThemeIcon() {
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+        }
+
+        // Language Management
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('healthcare-language', lang);
+            updateLanguageDisplay();
+            
+            // Close dropdown
+            document.getElementById('languageDropdown').classList.remove('active');
+        }
+
+        function updateLanguageDisplay() {
+            const languages = {
+                en: 'English',
+                hi: 'हिंदी',
+                bn: 'বাংলা',
+                te: 'తెలుగు',
+                mr: 'मराठी',
+                ta: 'தமிழ்'
+            };
+            
+            document.getElementById('currentLanguage').textContent = languages[currentLanguage] || 'English';
+        }
+
+        // Chat Functionality
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Simulate AI response after delay
+            setTimeout(() => {
+                hideTypingIndicator();
+                generateAIResponse(message);
+            }, 1500);
+        }
+
+        function sendQuickReply(message) {
+            sendMessage();
+            document.getElementById('chatInput').value = message;
+            sendMessage();
+        }
+
+        function addMessage(content, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    ${content}
+                    <div style="font-size: 0.75rem; opacity: 0.7; margin-top: 0.5rem;">${timestamp}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Store in history
+            chatHistory.push({ content, sender, timestamp });
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="message-bubble">
+                    <div class="loading"></div>
+                    AI is typing...
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.querySelector('.typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function generateAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            let response = '';
+
+            // Simple keyword-based responses
+            if (message.includes('symptom') || message.includes('pain') || message.includes('fever')) {
+                response = getTranslation('symptoms') + " Some common symptoms to monitor include fever, pain, fatigue, and changes in appetite. If symptoms persist or worsen, please consult a healthcare professional.";
+            } else if (message.includes('vaccination') || message.includes('vaccine')) {
+                response = getTranslation('vaccination') + " I can provide information about routine immunizations, COVID-19 vaccines, and seasonal flu shots.";
+            } else if (message.includes('emergency') || message.includes('urgent')) {
+                response = getTranslation('emergency');
+            } else if (message.includes('tip') || message.includes('advice')) {
+                response = getTranslation('tips');
+            } else {
+                response = getTranslation('greeting') + " I can help with symptoms, vaccinations, health tips, and emergency guidance.";
+            }
+
+            addMessage(response, 'ai');
+        }
+
+        function getTranslation(key) {
+            return translations[currentLanguage]?.[key] || translations['en'][key];
+        }
+
+        function clearChat() {
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="message">
+                    <div class="message-bubble">
+                        <strong>Hello! 🙏</strong><br>
+                        I'm your AI health assistant. I can help you with:
+                        <ul style="margin: 0.5rem 0; padding-left: 1rem;">
+                            <li>Symptom checking</li>
+                            <li>Vaccination schedules</li>
+                            <li>Health information</li>
+                            <li>Preventive care tips</li>
+                            <li>Emergency guidance</li>
+                        </ul>
+                        How can I assist you today?
+                    </div>
+                </div>
+            `;
+            chatHistory = [];
+        }
+
+        function toggleVoiceChat() {
+            isVoiceMode = !isVoiceMode;
+            const voiceIcon = document.getElementById('voiceIcon');
+            
+            if (isVoiceMode) {
+                voiceIcon.innerHTML = '<div class="voice-animation"><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div></div>';
+                startVoiceRecognition();
+            } else {
+                voiceIcon.textContent = '🎙️';
+                stopVoiceRecognition();
+            }
+        }
+
+        function startVoiceRecognition() {
+            // Simulate voice recognition
+            addMessage("🎙️ Voice mode activated. Speak your question...", 'ai');
+            setTimeout(() => {
+                addMessage("I heard: 'What are the symptoms of fever?'", 'user');
+                generateAIResponse('symptoms fever');
+            }, 3000);
+        }
+
+        function stopVoiceRecognition() {
+            addMessage("🎙️ Voice mode deactivated.", 'ai');
+        }
+
+        // Health Info Functions
+        function showHealthCategory(category) {
+            const contentDiv = document.getElementById('health-content');
+            let content = '';
+
+            switch(category) {
+                case 'preventive-care':
+                    content = `
+                        <h2>🛡️ Preventive Care</h2>
+                        <div class="alert alert-info">
+                            <strong>Vaccination Schedule:</strong>
+                            <ul>
+                                <li><strong>Infants (0-2 years):</strong> BCG, OPV, DPT, Hepatitis B, Hib, Rotavirus, PCV, MMR</li>
+                                <li><strong>Children (2-18 years):</strong> DPT boosters, MMR boosters, Typhoid, Hepatitis A</li>
+                                <li><strong>Adults:</strong> Tetanus boosters every 10 years, Annual flu shots, COVID-19 vaccines</li>
+                            </ul>
+                        </div>
+                        <h3>Health Screenings</h3>
+                        <p>Regular health check-ups are essential for early detection of diseases:</p>
+                        <ul>
+                            <li>Blood pressure monitoring (annually)</li>
+                            <li>Diabetes screening (every 3 years after age 45)</li>
+                            <li>Cholesterol testing (every 5 years after age 20)</li>
+                            <li>Cancer screenings as recommended by age and gender</li>
+                        </ul>
+                    `;
+                    break;
+                case 'common-diseases':
+                    content = `
+                        <h2>🦠 Common Diseases</h2>
+                        <div class="dashboard-grid">
+                            <div class="dashboard-card">
+                                <h3>Fever</h3>
+                                <p><strong>Symptoms:</strong> High temperature, chills, body aches</p>
+                                <p><strong>Treatment:</strong> Rest, fluids, fever reducers</p>
+                                <p><strong>When to see doctor:</strong> Fever above 103°F or lasting more than 3 days</p>
+                            </div>
+                            <div class="dashboard-card">
+                                <h3>Common Cold</h3>
+                                <p><strong>Symptoms:</strong> Runny nose, cough, sneezing, sore throat</p>
+                                <p><strong>Treatment:</strong> Rest, fluids, throat lozenges</p>
+                                <p><strong>Prevention:</strong> Hand hygiene, avoid close contact with sick people</p>
+                            </div>
+                            <div class="dashboard-card">
+                                <h3>Diarrhea</h3>
+                                <p><strong>Symptoms:</strong> Loose, watery stools, stomach cramps</p>
+                                <p><strong>Treatment:</strong> ORS, BRAT diet, plenty of fluids</p>
+                                <p><strong>When to see doctor:</strong> Blood in stool, severe dehydration, fever</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'nutrition':
+                    content = `
+                        <h2>🥗 Nutrition & Diet</h2>
+                        <div class="alert alert-success">
+                            <strong>Balanced Diet Guidelines:</strong> Include fruits, vegetables, whole grains, lean proteins, and healthy fats in your daily meals.
+                        </div>
+                        <h3>Daily Nutritional Requirements</h3>
+                        <ul>
+                            <li><strong>Fruits & Vegetables:</strong> 5-9 servings per day</li>
+                            <li><strong>Whole Grains:</strong> 6-8 servings per day</li>
+                            <li><strong>Protein:</strong> 2-3 servings per day</li>
+                            <li><strong>Dairy:</strong> 2-3 servings per day</li>
+                            <li><strong>Water:</strong> 8-10 glasses per day</li>
+                        </ul>
+                        <h3>Foods to Limit</h3>
+                        <ul>
+                            <li>Processed and packaged foods</li>
+                            <li>Sugary drinks and snacks</li>
+                            <li>Excessive salt and sodium</li>
+                            <li>Trans fats and saturated fats</li>
+                        </ul>
+                    `;
+                    break;
+                default:
+                    content = `
+                        <div class="alert alert-info">
+                            <strong>Information loading...</strong> This section is being prepared with the latest health information.
+                        </div>
+                    `;
+            }
+
+            contentDiv.innerHTML = content;
+        }
+
+        // Community Functions
+        function createNewPost() {
+            const title = prompt("Enter post title:");
+            const content = prompt("Enter post content:");
+            
+            if (title && content) {
+                const postsContainer = document.getElementById('community-posts');
+                const newPost = document.createElement('div');
+                newPost.className = 'community-post';
+                newPost.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-avatar">YOU</div>
+                        <div>
+                            <strong>You</strong>
+                            <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Just now</div>
+                        </div>
+                    </div>
+                    <h3>${title}</h3>
+                    <p>${content}</p>
+                    <div class="post-actions">
+                        <button class="action-btn" onclick="likePost(this)">
+                            <span>👍</span> <span>0</span>
+                        </button>
+                        <button class="action-btn" onclick="toggleComments(this)">
+                            <span>💬</span> <span>0 Comments</span>
+                        </button>
+                        <button class="action-btn" onclick="sharePost(this)">
+                            <span>📤</span> Share
+                        </button>
+                    </div>
+                `;
+                postsContainer.insertBefore(newPost, postsContainer.firstChild);
+            }
+        }
+
+        function likePost(button) {
+            const countSpan = button.querySelector('span:last-child');
+            let count = parseInt(countSpan.textContent) + 1;
+            countSpan.textContent = count;
+            button.style.color = 'hsl(var(--primary))';
+        }
+
+        function toggleComments(button) {
+            alert('Comments feature coming soon!');
+        }
+
+        function sharePost(button) {
+            navigator.share ? 
+                navigator.share({title: 'Health Community Post', url: window.location.href}) :
+                alert('Post link copied to clipboard!');
+        }
+
+        function filterPosts(category) {
+            const posts = document.querySelectorAll('.community-post');
+            posts.forEach(post => {
+                if (category === 'all' || post.getAttribute('data-category') === category) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        }
+
+        // Sign In Functions
+        function switchSignInMode(mode) {
+            signInMode = mode;
+            const userBtn = document.getElementById('userModeBtn');
+            const adminBtn = document.getElementById('adminModeBtn');
+            
+            if (mode === 'user') {
+                userBtn.className = 'btn btn-primary';
+                adminBtn.className = 'btn btn-secondary';
+            } else {
+                userBtn.className = 'btn btn-secondary';
+                adminBtn.className = 'btn btn-primary';
+            }
+        }
+
+        function handleSignIn(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailPhone').value;
+            const password = document.getElementById('password').value;
+            
+            // Simulate sign in
+            alert(`${signInMode === 'user' ? 'User' : 'Admin'} sign in successful! Welcome, ${email}`);
+            
+            // Redirect to dashboard or appropriate section
+            showSection('home');
+        }
+
+        function forgotPassword() {
+            const email = prompt("Enter your email address for password reset:");
+            if (email) {
+                alert(`Password reset link sent to ${email}`);
+            }
+        }
+
+        function signInWithGoogle() {
+            alert('Google Sign-In integration coming soon!');
+        }
+
+        function signInWithOTP() {
+            const phone = prompt("Enter your phone number:");
+            if (phone) {
+                alert(`OTP sent to ${phone}. Feature coming soon!`);
+            }
+        }
+
+        function showSignUp() {
+            alert('Sign-up page coming soon!');
+        }
+
+        // Feature Functions
+        function openVaccinationScheduler() {
+            const age = prompt("Enter age (in months for infants, years for others):");
+            if (age) {
+                alert(`Vaccination schedule for ${age} will be displayed. Feature in development!`);
+            }
+        }
+
+        function openHealthDashboard() {
+            alert('Detailed health dashboard coming soon with personalized metrics!');
+        }
+
+        function showOutbreakAlerts() {
+            alert('Current outbreak alerts:\n• Dengue outbreak in Mumbai - Take precautions\n• Flu season active - Get vaccinated');
+        }
+
+        // Animation Functions
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = stat.textContent;
+                const isNumber = !isNaN(target.replace(/\D/g, ''));
+                
+                if (isNumber) {
+                    let count = 0;
+                    const targetNum = parseInt(target.replace(/\D/g, ''));
+                    const increment = targetNum / 50;
+                    
+                    const timer = setInterval(() => {
+                        count += increment;
+                        if (count >= targetNum) {
+                            stat.textContent = target;
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = Math.floor(count) + target.replace(/\d/g, '').replace(/\D+(\d+)/, '');
+                        }
+                    }, 20);
+                }
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

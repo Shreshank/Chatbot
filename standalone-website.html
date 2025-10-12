@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwasthyaSahayak - स्वास्थ्य सहायक | Your AI Health Companion</title>
+    <meta name="description" content="Get instant health guidance, vaccination tracking, and outbreak alerts. AI-powered healthcare assistant supporting rural and urban communities across India in multiple languages." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Healthcare color palette */
+            --primary: 142 81 168;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222.2 84% 4.9%;
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 142 81 168;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            
+            /* Healthcare themed colors */
+            --healthcare-primary: 142 81 168;
+            --healthcare-secondary: 160 84 163;
+            --healthcare-accent: 204 94 174;
+            --emergency: 0 84.2% 60.2%;
+            --success: 142 76% 36%;
+            --warning: 38 92% 50%;
+            --info: 221 83% 53%;
+            
+            /* Government colors */
+            --saffron: 25 95% 53%;
+            --white: 0 0% 100%;
+            --green: 142 76% 36%;
+            
+            /* Chat specific */
+            --chat-user: 142 81 168;
+            --chat-bot: 210 40% 96%;
+            --chat-border: 214.3 31.8% 91.4%;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--healthcare-secondary)));
+            --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--healthcare-accent) / 0.1));
+            --gradient-healthcare: linear-gradient(135deg, hsl(var(--healthcare-primary)), hsl(var(--healthcare-accent)));
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 hsl(var(--primary) / 0.05);
+            --shadow: 0 1px 3px 0 hsl(var(--primary) / 0.1), 0 1px 2px 0 hsl(var(--primary) / 0.06);
+            --shadow-md: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -1px hsl(var(--primary) / 0.06);
+            --shadow-lg: 0 10px 15px -3px hsl(var(--primary) / 0.1), 0 4px 6px -2px hsl(var(--primary) / 0.05);
+            --shadow-xl: 0 20px 25px -5px hsl(var(--primary) / 0.1), 0 10px 10px -5px hsl(var(--primary) / 0.04);
+            --shadow-strong: 0 8px 30px hsl(var(--primary) / 0.12);
+            
+            /* Animation */
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark {
+            --primary: 142 81 168;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 217.2 32.6% 17.5%;
+            --secondary-foreground: 210 40% 98%;
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --card: 222.2 84% 4.9%;
+            --card-foreground: 210 40% 98%;
+            --border: 217.2 32.6% 17.5%;
+            --input: 217.2 32.6% 17.5%;
+            --ring: 142 81 168;
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 210 40% 98%;
+            
+            /* Healthcare themed dark colors */
+            --healthcare-primary: 142 81 168;
+            --healthcare-secondary: 160 84 163;
+            --healthcare-accent: 204 94 174;
+            --emergency: 0 62.8% 30.6%;
+            --success: 142 76% 36%;
+            --warning: 38 92% 50%;
+            --info: 221 83% 53%;
+            
+            /* Chat specific dark */
+            --chat-user: 142 81 168;
+            --chat-bot: 217.2 32.6% 17.5%;
+            --chat-border: 217.2 32.6% 17.5%;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            line-height: 1.5;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .max-w-7xl {
+            max-width: 1280px;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .px-8 { padding-left: 2rem; padding-right: 2rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+        .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+
+        .m-4 { margin: 1rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mb-20 { margin-bottom: 5rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mt-20 { margin-top: 5rem; }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-row { flex-direction: row; }
+        .items-center { align-items: center; }
+        .items-start { align-items: flex-start; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-start { justify-content: flex-start; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+        .min-h-screen { min-height: 100vh; }
+
+        .rounded { border-radius: 0.25rem; }
+        .rounded-md { border-radius: 0.375rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-full { border-radius: 9999px; }
+
+        .border { border: 1px solid hsl(var(--border)); }
+        .border-t { border-top: 1px solid hsl(var(--border)); }
+
+        .bg-background { background-color: hsl(var(--background)); }
+        .bg-card { background-color: hsl(var(--card)); }
+        .bg-primary { background-color: hsl(var(--primary)); }
+        .bg-secondary { background-color: hsl(var(--secondary)); }
+        .bg-muted { background-color: hsl(var(--muted)); }
+
+        .text-foreground { color: hsl(var(--foreground)); }
+        .text-primary { color: hsl(var(--primary)); }
+        .text-secondary-foreground { color: hsl(var(--secondary-foreground)); }
+        .text-muted-foreground { color: hsl(var(--muted-foreground)); }
+        .text-card-foreground { color: hsl(var(--card-foreground)); }
+
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-base { font-size: 1rem; line-height: 1.5rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .text-5xl { font-size: 3rem; line-height: 1; }
+        .text-6xl { font-size: 3.75rem; line-height: 1; }
+
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+
+        .hidden { display: none; }
+        .block { display: block; }
+        .inline { display: inline; }
+        .inline-block { display: inline-block; }
+
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .fixed { position: fixed; }
+        .top-0 { top: 0; }
+        .left-0 { left: 0; }
+        .right-0 { right: 0; }
+        .bottom-0 { bottom: 0; }
+
+        .z-10 { z-index: 10; }
+        .z-20 { z-index: 20; }
+        .z-50 { z-index: 50; }
+
+        .shadow-sm { box-shadow: var(--shadow-sm); }
+        .shadow { box-shadow: var(--shadow); }
+        .shadow-md { box-shadow: var(--shadow-md); }
+        .shadow-lg { box-shadow: var(--shadow-lg); }
+        .shadow-xl { box-shadow: var(--shadow-xl); }
+
+        .transition-all { transition: var(--transition-smooth); }
+        .duration-300 { transition-duration: 300ms; }
+
+        .hover\\:scale-110:hover { transform: scale(1.1); }
+        .hover\\:bg-primary\\/80:hover { background-color: hsl(var(--primary) / 0.8); }
+
+        /* Component Styles */
+        .card {
+            background-color: hsl(var(--card));
+            color: hsl(var(--card-foreground));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: none;
+            outline: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: hsl(var(--primary) / 0.9);
+        }
+
+        .btn-secondary {
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: hsl(var(--foreground));
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-ghost:hover {
+            background-color: hsl(var(--muted));
+        }
+
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+        }
+
+        /* Healthcare specific styles */
+        .gradient-hero {
+            background: var(--gradient-hero);
+        }
+
+        .gradient-primary {
+            background: var(--gradient-primary);
+        }
+
+        .gradient-healthcare {
+            background: var(--gradient-healthcare);
+        }
+
+        .btn-healthcare {
+            background: var(--gradient-healthcare);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .btn-healthcare:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .chat-bubble-user {
+            background: linear-gradient(135deg, hsl(var(--chat-user)), hsl(var(--healthcare-secondary)));
+            color: white;
+            border-radius: 1rem 1rem 0.25rem 1rem;
+            padding: 0.75rem 1rem;
+            margin-left: auto;
+            max-width: 80%;
+        }
+
+        .chat-bubble-bot {
+            background-color: hsl(var(--chat-bot));
+            color: hsl(var(--foreground));
+            border: 1px solid hsl(var(--chat-border));
+            border-radius: 1rem 1rem 1rem 0.25rem;
+            padding: 0.75rem 1rem;
+            margin-right: auto;
+            max-width: 80%;
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .text-shadow {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Alert styles */
+        .alert-warning {
+            background: linear-gradient(135deg, hsl(var(--warning) / 0.1), hsl(var(--warning) / 0.05));
+            border: 1px solid hsl(var(--warning) / 0.2);
+            color: hsl(var(--warning));
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, hsl(var(--success) / 0.1), hsl(var(--success) / 0.05));
+            border: 1px solid hsl(var(--success) / 0.2);
+            color: hsl(var(--success));
+        }
+
+        /* Animations */
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .animate-bounce-in {
+            animation: bounceIn 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: hsl(var(--primary));
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-nav a {
+            color: hsl(var(--foreground));
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .navbar-nav a:hover,
+        .navbar-nav a.active {
+            color: hsl(var(--primary));
+        }
+
+        .navbar-mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Mobile menu */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: hsl(var(--background));
+                border-top: 1px solid hsl(var(--border));
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .navbar-nav.active {
+                display: flex;
+            }
+
+            .navbar-mobile-toggle {
+                display: block;
+            }
+
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Page content */
+        .page-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Hero section */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-healthcare);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Chat interface */
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .chat-header {
+            background: var(--gradient-healthcare);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chat-input-container {
+            border-top: 1px solid hsl(var(--border));
+            padding: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: hsl(var(--primary));
+        }
+
+        /* Dashboard cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .dashboard-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .dashboard-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-card-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-healthcare);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: hsl(var(--muted) / 0.3);
+            border-top: 1px solid hsl(var(--border));
+            margin-top: 5rem;
+            padding: 3rem 0;
+        }
+
+        /* Floating chat button */
+        .floating-chat-btn {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 50;
+            width: 3.5rem;
+            height: 3.5rem;
+            background: var(--gradient-healthcare);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-strong);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-chat-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-chat-widget {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 50;
+            width: 24rem;
+            max-width: calc(100vw - 2rem);
+            animation: bounceIn 0.5s ease-out;
+        }
+
+        .floating-chat-close {
+            position: absolute;
+            top: -0.5rem;
+            right: -0.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: hsl(var(--destructive));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* Progress bar */
+        .progress {
+            width: 100%;
+            height: 1rem;
+            background: hsl(var(--secondary));
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-healthcare);
+            transition: width 0.3s ease;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            padding: 0.25rem 0.625rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .badge-primary {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .badge-secondary {
+            background: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+
+        .badge-outline {
+            background: transparent;
+            border-color: hsl(var(--border));
+            color: hsl(var(--foreground));
+        }
+
+        /* Language selector */
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .language-btn {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .language-btn.active {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            border-color: hsl(var(--primary));
+        }
+
+        /* Tab navigation */
+        .tab-list {
+            display: flex;
+            border-bottom: 1px solid hsl(var(--border));
+            margin-bottom: 1rem;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            color: hsl(var(--muted-foreground));
+            border-bottom: 2px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .tab-button.active {
+            color: hsl(var(--primary));
+            border-bottom-color: hsl(var(--primary));
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: hsl(var(--foreground));
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.375rem;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            transition: var(--transition-smooth);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: hsl(var(--primary));
+            box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+        }
+
+        /* Health topic cards */
+        .health-topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .health-topic-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .health-topic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .health-topic-icon {
+            width: 3rem;
+            height: 3rem;
+            background: var(--gradient-healthcare);
+            color: white;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        /* Community features */
+        .community-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .community-stat-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .community-stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: hsl(var(--primary));
+            display: block;
+        }
+
+        .community-stat-label {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+        }
+
+        /* Posts */
+        .post-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: hsl(var(--primary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .post-meta {
+            flex: 1;
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: hsl(var(--foreground));
+        }
+
+        .post-time {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid hsl(var(--border));
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .post-action:hover {
+            color: hsl(var(--primary));
+        }
+
+        /* Dark mode toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: hsl(var(--foreground));
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: var(--transition-smooth);
+        }
+
+        .theme-toggle:hover {
+            background: hsl(var(--muted));
+        }
+
+        /* Responsive design */
+        @media (max-width: 640px) {
+            .px-4 { padding-left: 1rem; padding-right: 1rem; }
+            .px-6 { padding-left: 1rem; padding-right: 1rem; }
+            .px-8 { padding-left: 1rem; padding-right: 1rem; }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .floating-chat-widget {
+                width: calc(100vw - 2rem);
+                left: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <a href="#" class="navbar-brand" onclick="showPage('home')">
+                SwasthyaSahayak - स्वास्थ्य सहायक
+            </a>
+            <button class="navbar-mobile-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="navbar-nav" id="navbarNav">
+                <li><a href="#" onclick="showPage('home')" id="nav-home">Home</a></li>
+                <li><a href="#" onclick="showPage('health-info')" id="nav-health-info">Health Info</a></li>
+                <li><a href="#" onclick="showPage('community')" id="nav-community">Community</a></li>
+                <li><a href="#" onclick="showPage('chat')" id="nav-chat">AI Assistant</a></li>
+                <li><a href="#" onclick="showPage('sign-in')" id="nav-sign-in">Sign In</a></li>
+                <li>
+                    <div class="language-selector">
+                        <button class="language-btn active" onclick="setLanguage('en')">EN</button>
+                        <button class="language-btn" onclick="setLanguage('hi')">हिं</button>
+                    </div>
+                </li>
+                <li>
+                    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="page-content">
+        <!-- Home Page -->
+        <div id="page-home" class="page">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <h1>Welcome to SwasthyaSahayak</h1>
+                    <p>Your trusted AI-powered health companion supporting rural and urban communities across India</p>
+                    <div class="flex justify-center gap-4 mt-8">
+                        <button class="btn-healthcare" onclick="showPage('chat')">
+                            <i class="fas fa-robot mr-2"></i>
+                            Chat with AI Assistant
+                        </button>
+                        <button class="btn-primary" onclick="showPage('health-info')">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Health Information
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Section -->
+            <section class="py-16">
+                <div class="container">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold mb-4">Health Dashboard</h2>
+                        <p class="text-muted-foreground max-w-2xl mx-auto">
+                            Track your health journey, vaccination schedule, and stay updated with local health alerts.
+                        </p>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-syringe"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">Vaccination Tracker</h3>
+                                    <p class="text-sm text-muted-foreground">Next: Booster Shot</p>
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 75%"></div>
+                            </div>
+                            <p class="text-sm text-muted-foreground mt-2">75% complete</p>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">Health Metrics</h3>
+                                    <p class="text-sm text-muted-foreground">Last updated: Today</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mt-4">
+                                <div class="text-center">
+                                    <div class="text-lg font-bold text-primary">120/80</div>
+                                    <div class="text-xs text-muted-foreground">Blood Pressure</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-lg font-bold text-primary">72</div>
+                                    <div class="text-xs text-muted-foreground">Heart Rate</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">Health Alerts</h3>
+                                    <p class="text-sm text-muted-foreground">2 active alerts</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="alert-warning p-2 rounded text-sm">
+                                    <i class="fas fa-virus mr-2"></i>
+                                    Flu outbreak in your area
+                                </div>
+                                <div class="alert-success p-2 rounded text-sm">
+                                    <i class="fas fa-calendar-check mr-2"></i>
+                                    Health checkup reminder
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">Community Health</h3>
+                                    <p class="text-sm text-muted-foreground">Local updates</p>
+                                </div>
+                            </div>
+                            <div class="text-sm space-y-1">
+                                <div class="flex justify-between">
+                                    <span>Vaccination Rate:</span>
+                                    <span class="font-semibold text-primary">85%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Health Score:</span>
+                                    <span class="font-semibold text-primary">Good</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Assistant Preview -->
+            <section class="py-16 bg-muted/30">
+                <div class="container">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold mb-4">AI Health Assistant</h2>
+                        <p class="text-muted-foreground max-w-2xl mx-auto">
+                            Get instant health guidance, symptom checking, and vaccination information in your preferred language.
+                        </p>
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="chat-container">
+                            <div class="chat-header">
+                                <h3 class="font-semibold">SwasthyaSahayak AI</h3>
+                                <p class="text-sm opacity-90">Your Health Companion</p>
+                            </div>
+                            <div class="chat-messages" id="previewMessages">
+                                <div class="chat-bubble-bot">
+                                    <p>Hello! I'm your AI health assistant. How can I help you today?</p>
+                                    <p class="text-xs mt-1 opacity-70">नमस्ते! मैं आपका AI स्वास्थ्य सहायक हूं। आज मैं आपकी कैसे मदद कर सकता हूं?</p>
+                                </div>
+                                <div class="chat-bubble-user">
+                                    <p>I have a mild headache and fever</p>
+                                </div>
+                                <div class="chat-bubble-bot">
+                                    <p>I understand you're experiencing a headache and fever. These could be symptoms of various conditions. Here are some general recommendations:</p>
+                                    <ul class="list-disc list-inside mt-2 text-sm">
+                                        <li>Stay hydrated</li>
+                                        <li>Get adequate rest</li>
+                                        <li>Consider over-the-counter pain relief</li>
+                                    </ul>
+                                    <p class="text-xs mt-2 text-yellow-600">⚠️ Please consult a healthcare professional for proper diagnosis and treatment.</p>
+                                </div>
+                            </div>
+                            <div class="text-center p-4">
+                                <button class="btn-primary" onclick="showPage('chat')">
+                                    Start Full Conversation
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="text-center">
+                        <h3 class="text-lg font-semibold mb-4">SwasthyaSahayak - स्वास्थ्य सहायक</h3>
+                        <p class="text-muted-foreground mb-6">
+                            Empowering rural and urban communities with accessible healthcare information and guidance.
+                        </p>
+                        <div class="text-sm text-muted-foreground">
+                            <p>© 2024 SwasthyaSahayak. Supporting India's health journey.</p>
+                            <p class="mt-2">
+                                This platform provides general health information. Always consult healthcare professionals for medical advice.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Health Info Page -->
+        <div id="page-health-info" class="page hidden">
+            <section class="py-16">
+                <div class="container">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-4">Health Information & Resources</h1>
+                        <p class="text-xl text-muted-foreground">
+                            Comprehensive health guides and resources for better wellness
+                        </p>
+                    </div>
+
+                    <div class="health-topics-grid">
+                        <div class="health-topic-card">
+                            <div class="health-topic-icon">
+                                <i class="fas fa-lungs"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Respiratory Health</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Learn about lung health, breathing exercises, and respiratory conditions.</p>
+                            <p class="text-xs text-muted-foreground">श्वसन स्वास्थ्य के बारे में जानें और सांस की समस्याओं से बचाव करें।</p>
+                            <span class="badge badge-primary mt-2">General Health</span>
+                        </div>
+
+                        <div class="health-topic-card">
+                            <div class="health-topic-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Heart Health</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Understanding cardiovascular health and prevention strategies.</p>
+                            <p class="text-xs text-muted-foreground">हृदय स्वास्थ्य और हृदय रोगों की रोकथाम के उपाय।</p>
+                            <span class="badge badge-primary mt-2">Cardiovascular</span>
+                        </div>
+
+                        <div class="health-topic-card">
+                            <div class="health-topic-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Mental Health</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Mental wellness tips and stress management techniques.</p>
+                            <p class="text-xs text-muted-foreground">मानसिक स्वास्थ्य और तनाव प्रबंधन की जानकारी।</p>
+                            <span class="badge badge-secondary mt-2">Mental Wellness</span>
+                        </div>
+
+                        <div class="health-topic-card">
+                            <div class="health-topic-icon">
+                                <i class="fas fa-apple-alt"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Nutrition</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Balanced diet guidelines and nutritional information.</p>
+                            <p class="text-xs text-muted-foreground">संतुलित आहार और पोषण संबंधी दिशानिर्देश।</p>
+                            <span class="badge badge-primary mt-2">Nutrition</span>
+                        </div>
+
+                        <div class="health-topic-card">
+                            <div class="health-topic-icon">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Maternal Health</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Pregnancy care and maternal wellness guidance.</p>
+                            <p class="text-xs text-muted-foreground">गर्भावस्था की देखभाल और मातृ स्वास्थ्य की जानकारी।</p>
+                            <span class="badge badge-primary mt-2">Women's Health</span>
+                        </div>
+
+                        <div class="health-topic-card">
+                            <div class="health-topic-icon">
+                                <i class="fas fa-syringe"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Vaccination</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Vaccination schedules and immunization information.</p>
+                            <p class="text-xs text-muted-foreground">टीकाकरण कार्यक्रम और प्रतिरक्षा की जानकारी।</p>
+                            <span class="badge badge-primary mt-2">Prevention</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Resources -->
+                    <div class="mt-16">
+                        <h2 class="text-2xl font-bold text-center mb-8">Quick Health Resources</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="card p-6">
+                                <h3 class="font-semibold mb-4 text-lg">Emergency Helplines</h3>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between">
+                                        <span>National Emergency:</span>
+                                        <span class="font-semibold text-red-600">112</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Ambulance:</span>
+                                        <span class="font-semibold text-red-600">108</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Women Helpline:</span>
+                                        <span class="font-semibold text-red-600">1091</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Child Helpline:</span>
+                                        <span class="font-semibold text-red-600">1098</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card p-6">
+                                <h3 class="font-semibold mb-4 text-lg">Government Health Schemes</h3>
+                                <div class="space-y-2">
+                                    <div class="p-2 bg-green-50 rounded text-sm">
+                                        <div class="font-semibold">Ayushman Bharat</div>
+                                        <div class="text-xs text-muted-foreground">Health insurance for families</div>
+                                    </div>
+                                    <div class="p-2 bg-blue-50 rounded text-sm">
+                                        <div class="font-semibold">Janani Suraksha Yojana</div>
+                                        <div class="text-xs text-muted-foreground">Maternal health program</div>
+                                    </div>
+                                    <div class="p-2 bg-purple-50 rounded text-sm">
+                                        <div class="font-semibold">Mission Indradhanush</div>
+                                        <div class="text-xs text-muted-foreground">Vaccination drive</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Community Page -->
+        <div id="page-community" class="page hidden">
+            <section class="py-16">
+                <div class="container">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-4">Health Community</h1>
+                        <p class="text-xl text-muted-foreground">
+                            Connect with others on your health journey
+                        </p>
+                    </div>
+
+                    <!-- Community Stats -->
+                    <div class="community-stats">
+                        <div class="community-stat-card">
+                            <span class="community-stat-number">15,000+</span>
+                            <span class="community-stat-label">Active Members</span>
+                        </div>
+                        <div class="community-stat-card">
+                            <span class="community-stat-number">500+</span>
+                            <span class="community-stat-label">Health Discussions</span>
+                        </div>
+                        <div class="community-stat-card">
+                            <span class="community-stat-number">50+</span>
+                            <span class="community-stat-label">Expert Doctors</span>
+                        </div>
+                        <div class="community-stat-card">
+                            <span class="community-stat-number">200+</span>
+                            <span class="community-stat-label">Health Events</span>
+                        </div>
+                    </div>
+
+                    <!-- Community Features -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                        <div class="card p-6 text-center">
+                            <div class="health-topic-icon mx-auto">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Health Discussions</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Join conversations about health topics that matter to you.</p>
+                            <p class="text-xs text-muted-foreground">स्वास्थ्य विषयों पर चर्चा में भाग लें।</p>
+                            <div class="text-sm font-semibold text-primary mt-2">500+ Active Discussions</div>
+                        </div>
+
+                        <div class="card p-6 text-center">
+                            <div class="health-topic-icon mx-auto">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Support Groups</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Find support groups for specific health conditions.</p>
+                            <p class="text-xs text-muted-foreground">विशिष्ट स्वास्थ्य स्थितियों के लिए सहायता समूह।</p>
+                            <div class="text-sm font-semibold text-primary mt-2">50+ Support Groups</div>
+                        </div>
+
+                        <div class="card p-6 text-center">
+                            <div class="health-topic-icon mx-auto">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <h3 class="font-semibold mb-2">Health Events</h3>
+                            <p class="text-sm text-muted-foreground mb-2">Participate in health awareness events and webinars.</p>
+                            <p class="text-xs text-muted-foreground">स्वास्थ्य जागरूकता कार्यक्रमों में भाग लें।</p>
+                            <div class="text-sm font-semibold text-primary mt-2">200+ Monthly Events</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Posts -->
+                    <div class="mt-16">
+                        <h2 class="text-2xl font-bold mb-8">Recent Community Posts</h2>
+                        <div class="space-y-6">
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="post-avatar">DM</div>
+                                    <div class="post-meta">
+                                        <div class="post-author">Dr. Maya Sharma</div>
+                                        <div class="post-time">2 hours ago</div>
+                                    </div>
+                                    <span class="badge badge-primary">Expert</span>
+                                </div>
+                                <h3 class="font-semibold mb-2">Winter Health Tips for Elderly</h3>
+                                <p class="text-sm text-muted-foreground mb-2">
+                                    As winter approaches, it's important for elderly individuals to take extra care of their health...
+                                </p>
+                                <p class="text-xs text-muted-foreground">
+                                    सर्दियों में बुजुर्गों के लिए स्वास्थ्य सुझाव...
+                                </p>
+                                <div class="post-actions">
+                                    <div class="post-action">
+                                        <i class="fas fa-heart"></i>
+                                        <span>24</span>
+                                    </div>
+                                    <div class="post-action">
+                                        <i class="fas fa-comment"></i>
+                                        <span>8</span>
+                                    </div>
+                                    <div class="post-action">
+                                        <i class="fas fa-share"></i>
+                                        <span>Share</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="post-avatar">RK</div>
+                                    <div class="post-meta">
+                                        <div class="post-author">Raj Kumar</div>
+                                        <div class="post-time">4 hours ago</div>
+                                    </div>
+                                    <span class="badge badge-secondary">Member</span>
+                                </div>
+                                <h3 class="font-semibold mb-2">My Diabetes Management Journey</h3>
+                                <p class="text-sm text-muted-foreground mb-2">
+                                    Sharing my experience with managing Type 2 diabetes through diet and exercise...
+                                </p>
+                                <p class="text-xs text-muted-foreground">
+                                    टाइप 2 मधुमेह के प्रबंधन का मेरा अनुभव...
+                                </p>
+                                <div class="post-actions">
+                                    <div class="post-action">
+                                        <i class="fas fa-heart"></i>
+                                        <span>18</span>
+                                    </div>
+                                    <div class="post-action">
+                                        <i class="fas fa-comment"></i>
+                                        <span>12</span>
+                                    </div>
+                                    <div class="post-action">
+                                        <i class="fas fa-share"></i>
+                                        <span>Share</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Join Community CTA -->
+                    <div class="text-center mt-12">
+                        <div class="card p-8 max-w-md mx-auto">
+                            <h3 class="font-semibold mb-4">Join Our Community</h3>
+                            <p class="text-sm text-muted-foreground mb-6">
+                                Connect with others, share experiences, and get support on your health journey.
+                            </p>
+                            <button class="btn-healthcare w-full" onclick="showPage('sign-in')">
+                                Join Community
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Chat Assistant Page -->
+        <div id="page-chat" class="page hidden">
+            <section class="py-16">
+                <div class="container">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-4">AI Health Assistant</h1>
+                        <p class="text-xl text-muted-foreground">
+                            Get instant health guidance in your preferred language
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Chat Interface -->
+                        <div class="lg:col-span-2">
+                            <div class="chat-container">
+                                <div class="chat-header">
+                                    <h3 class="font-semibold">SwasthyaSahayak AI</h3>
+                                    <p class="text-sm opacity-90">Your Personal Health Assistant</p>
+                                </div>
+                                <div class="chat-messages" id="chatMessages">
+                                    <div class="chat-bubble-bot">
+                                        <p>Hello! I'm your AI health assistant. I can help you with:</p>
+                                        <ul class="list-disc list-inside mt-2 text-sm">
+                                            <li>General health information</li>
+                                            <li>Symptom assessment</li>
+                                            <li>Vaccination guidance</li>
+                                            <li>Health tips and advice</li>
+                                        </ul>
+                                        <p class="text-xs mt-2 opacity-70">
+                                            नमस्ते! मैं आपका AI स्वास्थ्य सहायक हूं। मैं आपकी स्वास्थ्य संबंधी जानकारी में मदद कर सकता हूं।
+                                        </p>
+                                        <p class="text-xs mt-2 text-yellow-600">
+                                            ⚠️ For medical emergencies, please call 108 or visit the nearest hospital.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="chat-input-container">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Type your health question here..."
+                                        class="chat-input"
+                                        id="chatInput"
+                                        onkeypress="handleChatKeyPress(event)"
+                                    >
+                                    <button class="btn-primary" onclick="sendMessage()">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Features & Sample Queries -->
+                        <div class="space-y-6">
+                            <!-- Features -->
+                            <div class="card p-6">
+                                <h3 class="font-semibold mb-4">AI Assistant Features</h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start gap-3">
+                                        <i class="fas fa-stethoscope text-primary mt-1"></i>
+                                        <div>
+                                            <h4 class="font-medium text-sm">Symptom Assessment</h4>
+                                            <p class="text-xs text-muted-foreground">लक्षण मूल्यांकन</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <i class="fas fa-syringe text-primary mt-1"></i>
+                                        <div>
+                                            <h4 class="font-medium text-sm">Vaccination Info</h4>
+                                            <p class="text-xs text-muted-foreground">टीकाकरण जानकारी</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <i class="fas fa-pills text-primary mt-1"></i>
+                                        <div>
+                                            <h4 class="font-medium text-sm">Medication Guidance</h4>
+                                            <p class="text-xs text-muted-foreground">दवा मार्गदर्शन</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <i class="fas fa-heartbeat text-primary mt-1"></i>
+                                        <div>
+                                            <h4 class="font-medium text-sm">Health Tips</h4>
+                                            <p class="text-xs text-muted-foreground">स्वास्थ्य सुझाव</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sample Queries -->
+                            <div class="card p-6">
+                                <h3 class="font-semibold mb-4">Sample Health Queries</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <h4 class="font-medium text-sm mb-2">
+                                            <span class="badge badge-primary mr-2">Symptoms</span>
+                                            <span>लक्षण</span>
+                                        </h4>
+                                        <div class="text-xs text-muted-foreground space-y-1">
+                                            <div>"I have fever and headache"</div>
+                                            <div>"मुझे बुखार और सिरदर्द है"</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-sm mb-2">
+                                            <span class="badge badge-secondary mr-2">Vaccination</span>
+                                            <span>टीकाकरण</span>
+                                        </h4>
+                                        <div class="text-xs text-muted-foreground space-y-1">
+                                            <div>"When should I get flu vaccine?"</div>
+                                            <div>"फ्लू का टीका कब लगवाना चाहिए?"</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-sm mb-2">
+                                            <span class="badge badge-outline mr-2">Prevention</span>
+                                            <span>रोकथाम</span>
+                                        </h4>
+                                        <div class="text-xs text-muted-foreground space-y-1">
+                                            <div>"How to prevent diabetes?"</div>
+                                            <div>"मधुमेह से कैसे बचें?"</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Disclaimer -->
+                            <div class="card p-6 border-yellow-200 bg-yellow-50">
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-exclamation-triangle text-yellow-600 mt-1"></i>
+                                    <div>
+                                        <h4 class="font-medium text-sm text-yellow-800 mb-2">Important Medical Disclaimer</h4>
+                                        <p class="text-xs text-yellow-700">
+                                            This AI assistant provides general health information only and should not replace professional medical advice. 
+                                            For serious health concerns or emergencies, please consult a qualified healthcare provider immediately.
+                                        </p>
+                                        <p class="text-xs text-yellow-700 mt-2">
+                                            यह AI सहायक केवल सामान्य स्वास्थ्य जानकारी प्रदान करता है। गंभीर स्वास्थ्य समस्याओं के लिए तुरंत डॉक्टर से सलाह लें।
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sign In Page -->
+        <div id="page-sign-in" class="page hidden">
+            <section class="py-16">
+                <div class="container max-w-md mx-auto">
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl font-bold mb-4">Sign In</h1>
+                        <p class="text-muted-foreground">
+                            Access your health dashboard and community features
+                        </p>
+                    </div>
+
+                    <div class="card p-8">
+                        <!-- Tab Navigation -->
+                        <div class="tab-list">
+                            <button class="tab-button active" onclick="switchTab('user')">User</button>
+                            <button class="tab-button" onclick="switchTab('admin')">Admin</button>
+                        </div>
+
+                        <!-- User Tab -->
+                        <div id="tab-user" class="tab-content active">
+                            <form onsubmit="handleSignIn(event, 'user')">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" placeholder="Enter your email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-input" placeholder="Enter your password" required>
+                                </div>
+                                <button type="submit" class="btn-primary w-full">Sign In as User</button>
+                            </form>
+                        </div>
+
+                        <!-- Admin Tab -->
+                        <div id="tab-admin" class="tab-content">
+                            <form onsubmit="handleSignIn(event, 'admin')">
+                                <div class="form-group">
+                                    <label class="form-label">Admin Email</label>
+                                    <input type="email" class="form-input" placeholder="Enter admin email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Admin Password</label>
+                                    <input type="password" class="form-input" placeholder="Enter admin password" required>
+                                </div>
+                                <button type="submit" class="btn-primary w-full">Sign In as Admin</button>
+                            </form>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <button class="btn-secondary w-full mb-4">Create New Account</button>
+                            
+                            <div class="space-y-2">
+                                <button class="btn-ghost w-full text-sm">
+                                    <i class="fas fa-phone mr-2"></i>
+                                    Sign in with Phone OTP
+                                </button>
+                                <button class="btn-ghost w-full text-sm" onclick="continueAsGuest()">
+                                    <i class="fas fa-user mr-2"></i>
+                                    Continue as Guest
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-6">
+                            <p class="text-xs text-muted-foreground">
+                                By signing in, you agree to our Terms of Service and Privacy Policy
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 404 Page -->
+        <div id="page-404" class="page hidden">
+            <section class="py-16">
+                <div class="container text-center">
+                    <h1 class="text-6xl font-bold text-primary mb-4">404</h1>
+                    <h2 class="text-2xl font-semibold mb-4">Page Not Found</h2>
+                    <p class="text-muted-foreground mb-8">
+                        The page you're looking for doesn't exist or has been moved.
+                    </p>
+                    <button class="btn-primary" onclick="showPage('home')">
+                        <i class="fas fa-home mr-2"></i>
+                        Back to Home
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Floating Chat Button -->
+    <button id="floatingChatBtn" class="floating-chat-btn" onclick="toggleFloatingChat()">
+        <i class="fas fa-comment"></i>
+    </button>
+
+    <!-- Floating Chat Widget -->
+    <div id="floatingChatWidget" class="floating-chat-widget hidden">
+        <button class="floating-chat-close" onclick="closeFloatingChat()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3 class="font-semibold">Quick Health Chat</h3>
+            </div>
+            <div class="chat-messages" id="floatingChatMessages">
+                <div class="chat-bubble-bot">
+                    <p>Hello! How can I help with your health today?</p>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input 
+                    type="text" 
+                    placeholder="Ask a quick health question..."
+                    class="chat-input"
+                    id="floatingChatInput"
+                    onkeypress="handleFloatingChatKeyPress(event)"
+                >
+                <button class="btn-primary" onclick="sendFloatingMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentPage = 'home';
+        let currentLanguage = 'en';
+        let isDarkMode = false;
+        let showFloatingChat = false;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+            updateActiveNavItem();
+        });
+
+        // Navigation functions
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+            
+            // Show selected page
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                currentPage = pageId;
+                updateActiveNavItem();
+                
+                // Hide mobile menu if open
+                const navbarNav = document.getElementById('navbarNav');
+                navbarNav.classList.remove('active');
+                
+                // Update URL hash
+                window.location.hash = pageId === 'home' ? '' : pageId;
+            } else {
+                // Show 404 page
+                document.getElementById('page-404').classList.remove('hidden');
+                currentPage = '404';
+            }
+            
+            // Hide floating chat when changing pages
+            if (showFloatingChat && pageId === 'chat') {
+                closeFloatingChat();
+            }
+        }
+
+        function updateActiveNavItem() {
+            // Remove active class from all nav items
+            const navItems = document.querySelectorAll('.navbar-nav a');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Add active class to current page nav item
+            const activeNavItem = document.getElementById(`nav-${currentPage}`);
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const navbarNav = document.getElementById('navbarNav');
+            navbarNav.classList.toggle('active');
+        }
+
+        // Theme functions
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (isDarkMode) {
+                body.classList.add('dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                body.classList.remove('dark');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            // Save theme preference
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        }
+
+        // Language functions
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update language buttons
+            const langButtons = document.querySelectorAll('.language-btn');
+            langButtons.forEach(btn => btn.classList.remove('active'));
+            
+            const activeBtn = Array.from(langButtons).find(btn => 
+                (lang === 'en' && btn.textContent === 'EN') || 
+                (lang === 'hi' && btn.textContent === 'हिं')
+            );
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // Save language preference
+            localStorage.setItem('language', lang);
+        }
+
+        // Chat functions
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage(message, 'user', 'chatMessages');
+                input.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const response = generateAIResponse(message);
+                    addChatMessage(response, 'bot', 'chatMessages');
+                }, 1000);
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addChatMessage(message, sender, containerId) {
+            const messagesContainer = document.getElementById(containerId);
+            const messageDiv = document.createElement('div');
+            
+            if (sender === 'user') {
+                messageDiv.className = 'chat-bubble-user';
+            } else {
+                messageDiv.className = 'chat-bubble-bot';
+            }
+            
+            messageDiv.innerHTML = `<p>${message}</p>`;
+            messagesContainer.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function generateAIResponse(userMessage) {
+            const responses = {
+                'fever': 'For fever, it\'s important to stay hydrated and rest. If your fever is above 101°F (38.3°C) or persists for more than 3 days, please consult a healthcare professional. बुखार के लिए पानी पिएं और आराम करें।',
+                'headache': 'Headaches can have various causes. Try resting in a quiet, dark room and staying hydrated. If headaches are severe or frequent, consult a doctor. सिरदर्द के लिए शांत जगह आराम करें।',
+                'vaccination': 'Vaccination schedules vary by age and health conditions. For adults, annual flu shots and periodic boosters are recommended. Check with your local health center for specific requirements. टीकाकरण के लिए स्थानीय स्वास्थ्य केंद्र से संपर्क करें।',
+                'diabetes': 'Diabetes management includes regular blood sugar monitoring, healthy diet, and exercise. Always follow your doctor\'s prescribed treatment plan. मधुमेह के लिए नियमित जांच और स्वस्थ भोजन जरूरी है।'
+            };
+            
+            const lowerMessage = userMessage.toLowerCase();
+            for (const [key, response] of Object.entries(responses)) {
+                if (lowerMessage.includes(key)) {
+                    return response;
+                }
+            }
+            
+            return 'Thank you for your question. For specific medical advice, I recommend consulting with a healthcare professional. Your health and safety are important. आपके स्वास्थ्य के लिए डॉक्टर की सलाह लेना बेहतर होगा।';
+        }
+
+        // Floating chat functions
+        function toggleFloatingChat() {
+            showFloatingChat = !showFloatingChat;
+            const widget = document.getElementById('floatingChatWidget');
+            const btn = document.getElementById('floatingChatBtn');
+            
+            if (showFloatingChat) {
+                widget.classList.remove('hidden');
+                btn.classList.add('hidden');
+            } else {
+                widget.classList.add('hidden');
+                btn.classList.remove('hidden');
+            }
+        }
+
+        function closeFloatingChat() {
+            showFloatingChat = false;
+            document.getElementById('floatingChatWidget').classList.add('hidden');
+            document.getElementById('floatingChatBtn').classList.remove('hidden');
+        }
+
+        function sendFloatingMessage() {
+            const input = document.getElementById('floatingChatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage(message, 'user', 'floatingChatMessages');
+                input.value = '';
+                
+                setTimeout(() => {
+                    const response = generateAIResponse(message);
+                    addChatMessage(response, 'bot', 'floatingChatMessages');
+                }, 1000);
+            }
+        }
+
+        function handleFloatingChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendFloatingMessage();
+            }
+        }
+
+        // Sign in functions
+        function switchTab(tabName) {
+            // Update tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update tab content
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        function handleSignIn(event, userType) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const email = formData.get('email') || event.target.querySelector('input[type="email"]').value;
+            const password = formData.get('password') || event.target.querySelector('input[type="password"]').value;
+            
+            // Simulate sign in
+            alert(`Sign in as ${userType} with email: ${email}`);
+            
+            // Redirect to home page after successful sign in
+            showPage('home');
+        }
+
+        function continueAsGuest() {
+            alert('Continuing as guest user');
+            showPage('home');
+        }
+
+        // Handle browser back/forward
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash.substring(1);
+            const page = hash || 'home';
+            showPage(page);
+        });
+
+        // Load saved preferences
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                toggleTheme();
+            }
+            
+            // Load language
+            const savedLanguage = localStorage.getItem('language');
+            if (savedLanguage) {
+                setLanguage(savedLanguage);
+            }
+            
+            // Handle initial hash
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                showPage(hash);
+            }
+        });
+
+        // Handle clicks outside mobile menu
+        document.addEventListener('click', function(event) {
+            const navbarNav = document.getElementById('navbarNav');
+            const mobileToggle = document.querySelector('.navbar-mobile-toggle');
+            
+            if (!navbarNav.contains(event.target) && !mobileToggle.contains(event.target)) {
+                navbarNav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
