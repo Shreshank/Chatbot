@@ -1,4 +1,4 @@
-curl -F "url=https://swasthya-seven.vercel.app/telegram-webhook/superSecret123SYNERCN8N4CR8NR9N" https://api.telegram.org/bot8314975233:AAFI9YdRPbMyqsRtobwhCXPgJ8IIzWOweis/setWebhook
+curl -F "url=https://deploy-dummy-heathbot.vercel.app/telegram-webhook/superSecret123SYNERCN8N4CR8NR9N" https://api.telegram.org/bot8314975233:AAFI9YdRPbMyqsRtobwhCXPgJ8IIzWOweis/setWebhook
 
 
 
