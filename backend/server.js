@@ -6,10 +6,12 @@ import dotenv from 'dotenv'
 // import bodyParser from "body-parser"
 import mongoose from "mongoose"
 import ChatHistory from "./models/QA.js" // schema
+// import dns from "dns"
 
 const app = express();
 dotenv.config(); // Loads .env into process.env
 const PORT = process.env.PORT || 5000;
+// dns.setServers(["1.1.1.1", "8.8.8.8"])
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,11 +19,14 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY_TWO;
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_TOKEN}`;
 const TELEGRAM_SECRET = process.env.TELEGRAM_SECRET;
+const FREE_AI_NAMES = [process.env.FREE_AI_NAME, process.env.FREE_AI_NAME2, process.env.FREE_AI_NAME3, process.env.FREE_AI_NAME4];
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
+
+// ,{
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// }
+mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("MongoDB connected");
 }).catch((err) => {
   console.error("MongoDB connection error:", err);
@@ -104,6 +109,10 @@ app.use(express.static(path.join(__dirname, "dist")));
 // for req body
 // app.use(bodyParser.json()); // to parse Telegram JSON requests
 app.use(express.json());
+
+app.get("/get-ai-list", async (req, res) => {
+  res.status(200).json({names: FREE_AI_NAMES})
+})
 
 // openrouter api
 app.post("/api/chat", checkCache, callOpenRouter, async (req, res) => {

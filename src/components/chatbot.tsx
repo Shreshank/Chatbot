@@ -23,12 +23,43 @@ const quickReplies = [
 
 export function Chatbot() {
 
+  async function get_ai_names() {
+    try {
+      const res = await fetch("/get-ai-list", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error: ${res.status}`);
+      }
+
+      const result = await res.json();
+
+      return result.names;
+    } catch (error) {
+      console.error("Failed to get AI names:", error);
+      return [];
+    }
+  }
+
+  const [aiNamesList, setAiNamesList] = useState([]);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
-  const [model, setModel] = useState("meta-llama/llama-3.3-8b-instruct:free");
+  const [model, setModel] = useState("");
   const [myReq, setmyReq] = useState('')
   const [hist, setHist] = useState(false)
+
+  useEffect(() => {
+    get_ai_names().then((names) => {
+      setAiNamesList(names);
+      setModel(names[0] || "");
+      setLoading(false);
+    });
+  }, []);
 
   // API Key from .env
   // const OPENROUTER_API_KEY = import.meta.env.OPENROUTER_API_KEY_TWO;
@@ -165,12 +196,10 @@ export function Chatbot() {
             <label className="model-label ml-[30px]">
               Choose Model:
               <select className="m-2 rounded-md p-2 bg-cyan-800" value={model} onChange={(e) => setModel(e.target.value)}>
-                <option value="meta-llama/llama-3.3-8b-instruct:free">meta-llama</option>
-                <option value="nousresearch/deephermes-3-llama-3-8b-preview:free">Nous</option>
-                <option value="meta-llama/llama-3-70b-instruct">
-                  Llama 3 (70B)
-                </option>
-                <option value="deepseek/deepseek-chat-v3.1:free">DeepSeek</option>
+                <option value={aiNamesList[0]}>{aiNamesList[0]}</option>
+                <option value={aiNamesList[1]}>{aiNamesList[1]}</option>
+                <option value={aiNamesList[2]}>{aiNamesList[2]}</option>
+                <option value={aiNamesList[3]}>{aiNamesList[3]}</option>
               </select>
             </label>
             <div className=" bg-white h-5 w-5 rounded-full hover:cursor-pointer" onClick={() => {setHist(!hist)}}>
